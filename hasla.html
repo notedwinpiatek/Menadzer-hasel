@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="init()">
+    <h1 style="text-align: center;">Menażer haseł</h1>
+<hr>
+<br>
+    <h2>Dodaj swoje hasło i login:</h2>
+    <input type="text" name="" id="login">
+    <input type="text" name="" id="hasło">
+<div id="passlist">
+
+</div>
+
+<button onclick="addLog()">Dodaj login i hasło</button>
+<button onclick="delLog()">Usuń login i hasło</button>
+
+<script>
+    function init() {
+        if (window.localStorage.getItem('Login') === null) { 
+                let name = window.prompt("Podaj login: "); 
+                window.localStorage.setItem('login', name); 
+            }
+            document.getElementById('login').innerHTML = window.localStorage.getItem('login');
+            function init() {
+            showpasslist();
+    }
+</script>
+</body>
+</html> 
