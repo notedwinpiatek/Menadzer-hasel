@@ -1,35 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Menadżer Haseł</title>
 </head>
+
 <body onload="init()">
-    <h1 style="text-align: center;">Menażer haseł</h1>
-<hr>
-<br>
-    <h2>Dodaj swoje hasło i login:</h2>
-    <input type="text" name="" id="login">
-    <input type="text" name="" id="hasło">
-<div id="passlist">
+    <h1 style="text-align: center;">Menadżer haseł</h1>
+    <h2>Witaj <span id="name"></span>, twoje hasła:</h2>
+    <div id="taskList">
 
-</div>
+    </div>
+    <h2>Dodaj nowe hasła:</h2>
+    <input type="text" name="" id="task">
+    <button onclick="addTask()">Dodaj</button>
+    <script>
 
-<button onclick="addLog()">Dodaj login i hasło</button>
-<button onclick="delLog()">Usuń login i hasło</button>
 
-<script>
-    function init() {
-        if (window.localStorage.getItem('Login') === null) { 
-                let name = window.prompt("Podaj login: "); 
-                window.localStorage.setItem('login', name); 
+        function init() {
+            //window.localStorage.setItem('name', 'Paweł'); // tak zapisujemy do magazynu
+            if (window.localStorage.getItem('name') === null) { //jesli nie ma zapisu o takim kluczu zwraca null
+                let name = window.prompt("Podaj imię: "); //wyświetl okientko z zapytaniem
+                window.localStorage.setItem('name', name); //zapisz imie do magazynu
             }
-            document.getElementById('login').innerHTML = window.localStorage.getItem('login');
-            function init() {
-            showpasslist();
-    }
-</script>
+            document.getElementById('name').innerHTML = window.localStorage.getItem('name');
+            showTaskList();
+        }
+        function addTask() {
+            let task = document.getElementById('task').value;
+            let taskList = JSON.parse(window.localStorage.getItem('taskList'));
+            //console.log(taskList);
+            //if (taskList.count() == 0) 
+            //    taskList = Array(); //zabezpieczenie na wypadek pustej listy  
+            try {
+                taskList.push(task);
+            } catch {
+                taskList = Array();
+                taskList.push(task);
+            }
+            
+
+            window.localStorage.setItem('taskList', JSON.stringify(taskList));
+            document.getElementById('task').value = "";
+            showTaskList();
+        }
+        function showTaskList() {
+            let taskArray = JSON.parse(window.localStorage.getItem('taskList'));
+            if(taskArray === null) return;
+            let taskList = document.getElementById('taskList');
+            //console.log(taskArray.length);
+            let htmlBuffer = "";
+            htmlBuffer += "<ul>";
+            for (let i = 0; i < taskArray.length; i++) {
+                htmlBuffer += "<li><button onclick=\"removeTask("+i+")\">Usuń</button>" 
+                                + taskArray[i] + "</li>";
+            }
+            htmlBuffer += "</ul>";
+            //console.log(htmlBuffer);
+            taskList.innerHTML = htmlBuffer;
+        }
+        function removeTask(i) {
+            let taskArray = JSON.parse(window.localStorage.getItem('taskList'));
+            console.log(taskArray);
+            taskArray.splice(i, 1);
+            console.log(taskArray);
+
+            window.localStorage.setItem('taskList', JSON.stringify(taskArray));
+            showTaskList();
+        }
+    </script>
 </body>
-</html> 
+
+</html>
