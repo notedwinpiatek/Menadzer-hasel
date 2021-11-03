@@ -10,36 +10,23 @@
 
 <body onload="init()">
     <h1 style="text-align: center;">Menadżer haseł</h1>
-    <h2>Witaj <span id="name"></span>, twoje hasła:</h2>
+    <hr>
+    <h2>Witaj <span id="username"></span>, twoje hasła:</h2>
     <div id="taskList">
 
     </div>
     <h2>Dodaj nowe hasła:</h2>
     <input type="text" name="" id="task">
-    <button onclick="addTask()">Dodaj</button>
+    <button onclick="addTask()">Dodaj hasło</button>
     <script>
-
-
-        function init() {
-            //window.localStorage.setItem('name', 'Paweł'); // tak zapisujemy do magazynu
-            if (window.localStorage.getItem('name') === null) { //jesli nie ma zapisu o takim kluczu zwraca null
-                let name = window.prompt("Podaj imię: "); //wyświetl okientko z zapytaniem
-                window.localStorage.setItem('name', name); //zapisz imie do magazynu
-            }
-            document.getElementById('name').innerHTML = window.localStorage.getItem('name');
-            showTaskList();
-        }
         function addTask() {
             let task = document.getElementById('task').value;
             let taskList = JSON.parse(window.localStorage.getItem('taskList'));
-            //console.log(taskList);
-            //if (taskList.count() == 0) 
-            //    taskList = Array(); //zabezpieczenie na wypadek pustej listy  
             try {
                 taskList.push(task);
             } catch {
                 taskList = Array();
-                taskList.push(task);
+                taskList.push(task); 
             }
             
 
@@ -51,7 +38,6 @@
             let taskArray = JSON.parse(window.localStorage.getItem('taskList'));
             if(taskArray === null) return;
             let taskList = document.getElementById('taskList');
-            //console.log(taskArray.length);
             let htmlBuffer = "";
             htmlBuffer += "<ul>";
             for (let i = 0; i < taskArray.length; i++) {
@@ -59,7 +45,6 @@
                                 + taskArray[i] + "</li>";
             }
             htmlBuffer += "</ul>";
-            //console.log(htmlBuffer);
             taskList.innerHTML = htmlBuffer;
         }
         function removeTask(i) {
